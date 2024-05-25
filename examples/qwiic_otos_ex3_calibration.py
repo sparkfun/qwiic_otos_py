@@ -119,8 +119,8 @@ def runExample():
 
     # Main loop
     while True:
-        # Get the latest position, which includes the x and y coordinates, plus the
-        # heading angle
+        # Get the latest position, which includes the x and y coordinates, plus
+        # the heading angle
         myPosition = myOtos.getPosition()
 
         # Print measurement

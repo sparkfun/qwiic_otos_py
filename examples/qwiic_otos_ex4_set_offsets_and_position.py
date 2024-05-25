@@ -75,8 +75,8 @@ def runExample():
     # robot. The units default to inches and degrees, but if you want to use
     # different units, specify them before setting the offset! Note that as of
     # firmware version 1.0, these values will be lost after a power cycle, so
-    # you will need to set them each time you power up the sensor. For example, if
-    # the sensor is mounted 5 inches to the left (negative X) and 10 inches
+    # you will need to set them each time you power up the sensor. For example,
+    # if the sensor is mounted 5 inches to the left (negative X) and 10 inches
     # forward (positive Y) of the center of the robot, and mounted 90 degrees
     # clockwise (negative rotation) from the robot's orientation, the offset
     # would be {-5, 10, -90}. These can be any value, even the angle can be
@@ -97,8 +97,8 @@ def runExample():
 
     # Main loop
     while True:
-        # Get the latest position, which includes the x and y coordinates, plus the
-        # heading angle
+        # Get the latest position, which includes the x and y coordinates, plus
+        # the heading angle
         myPosition = myOtos.getPosition()
 
         # Print measurement
