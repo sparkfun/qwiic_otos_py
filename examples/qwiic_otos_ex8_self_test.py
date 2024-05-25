@@ -1,10 +1,15 @@
 #!/usr/bin/env python
 #-------------------------------------------------------------------------------
-# qwiic_template_ex1_title.py TODO: replace template and title
+# qwiic_otos_ex8_self_test.py
 #
-# TODO: Add description for this example
+# This example demonstrates how to perform a self test of the SparkFun Qwiic
+# Optical Tracking Odometry Sensor (OTOS).
+
+# The self test triggers the OTOS to perform a series of tests to ensure the
+# sensor is functioning correctly. This is performed during QC testing, but
+# you can also perform this test yourself.
 #-------------------------------------------------------------------------------
-# Written by SparkFun Electronics, TODO: month and year
+# Written by SparkFun Electronics, May 2024
 #
 # This python library supports the SparkFun Electroncis Qwiic ecosystem
 #
@@ -33,30 +38,39 @@
 # SOFTWARE.
 #===============================================================================
 
-import qwiic_template # TODO Import correct package
+import qwiic_otos
 import sys
+import time
 
 def runExample():
-	# TODO Replace template and title
-	print("\nQwiic Template Example 1 - Title\n")
+    print("\nQwiic OTOS Example 8 - Self Test\n")
 
-	# Create instance of device
-	myDevice = qwiic_template.QwiicTemplate() # TODO update as needed
+    # Create instance of device
+    myOtos = qwiic_otos.QwiicOTOS()
 
-	# Check if it's connected
-	if myDevice.is_connected() == False:
-		print("The device isn't connected to the system. Please check your connection", \
-			file=sys.stderr)
-		return
+    # Check if it's connected
+    if myOtos.is_connected() == False:
+        print("The device isn't connected to the system. Please check your connection", \
+            file=sys.stderr)
+        return
 
-	# Initialize the device
-	myDevice.begin()
+    # Initialize the device
+    myOtos.begin()
 
-	# TODO Add basic example code
+    print("The OTOS must be stationary during the self test!")
+
+    # Perform the self test
+    result = myOtos.selfTest()
+    
+    # Check if the self test passed
+    if(result == True):
+        print("Self test passed!")
+    else:
+        print("Self test failed!")
 
 if __name__ == '__main__':
-	try:
-		runExample()
-	except (KeyboardInterrupt, SystemExit) as exErr:
-		print("\nEnding Example")
-		sys.exit(0)
+    try:
+        runExample()
+    except (KeyboardInterrupt, SystemExit) as exErr:
+        print("\nEnding Example")
+        sys.exit(0)
