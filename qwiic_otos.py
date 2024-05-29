@@ -85,6 +85,12 @@ class Pose2D:
 # associated with this device is encapsulated by this class. The device class
 # should be the only value exported from this module.
 class QwiicOTOS(object):
+    """
+    Class for the SparkFun Qwiic Optical Tracking Odometry Sensor (OTOS).
+    Includes methods to communicate with the sensor, such as getting the tracked
+    location, configuring the sensor, etc. This class is a base class that must
+    be derived to implement the delay function and I2C communication bus.
+    """
     # Set default name and I2C address(es)
     device_name         = _DEFAULT_NAME
     available_addresses = _AVAILABLE_I2C_ADDRESS
@@ -279,8 +285,10 @@ class QwiicOTOS(object):
 
     def selfTest(self):
         """
-        Performs a self test of the OTOS
-        Returns: 0 for success, negative for errors, positive for warnings
+        Performs a self-test on the OTOS
+
+        :return: True if successful, otherwise False
+        :rtype: bool
         """
         # Write the self-test register to start the self test
         self._i2c.write_byte(self.address, self.kRegSelfTest, 0x01)
@@ -302,13 +310,19 @@ class QwiicOTOS(object):
 
     def calibrateImu(self, numSamples = 255, waitUntilDone = True):
         """
-        Calibrates the IMU on the OTOS, which removes the accelerometer
-        and gyroscope offsets
-        numSamples: Number of samples to take for calibration. Each sample
-        takes about 2.4ms, so fewer samples can be taken for faster calibration
-        waitUntilDone: Whether to wait until the calibration is complete.
-        Set false to calibrate asynchronously, see getImuCalibrationProgress()
-        Returns: 0 for success, negative for errors, positive for warnings
+        Calibrates the IMU on the OTOS, which removes the accelerometer and
+        gyroscope offsets
+
+        :param numSamples: Number of samples to take for calibration. Each
+        sample takes about 2.4ms, so fewer samples can be taken for faster
+        calibration, defaults to 255
+        :type numSamples: int, optional
+        :param waitUntilDone: hether to wait until the calibration is complete.
+        Set false to calibrate asynchronously, see getImuCalibrationProgress(),
+        defaults to True
+        :type waitUntilDone: bool, optional
+        :return: True if successful, otherwise False
+        :rtype: bool
         """
         # Write the number of samples to the device
         self._i2c.write_byte(self.address, self.kRegImuCalib, numSamples)
@@ -343,8 +357,9 @@ class QwiicOTOS(object):
         """
         Gets the progress of the IMU calibration. Used for asynchronous
         calibration with calibrateImu()
-        numSamples: Number of samples remaining for calibration
-        Returns: 0 for success, negative for errors, positive for warnings
+
+        :return: Number of samples remaining for calibration
+        :rtype: int
         """
         # Read the IMU calibration register
         return self._i2c.read_byte(self.address, self.kRegImuCalib)
@@ -352,14 +367,18 @@ class QwiicOTOS(object):
     def getLinearUnit(self):
         """
         Gets the linear unit used by all methods using a pose
-        Returns: Linear unit
+
+        :return: Linear unit
+        :rtype: int
         """
         return self._linearUnit
 
     def setLinearUnit(self, unit):
         """
         Sets the linear unit used by all methods using a pose
-        unit: Linear unit
+
+        :param unit: Linear unit
+        :type unit: int
         """
         # Check if this unit is already set
         if unit == self._linearUnit:
@@ -374,14 +393,18 @@ class QwiicOTOS(object):
     def getAngularUnit(self):
         """
         Gets the angular unit used by all methods using a pose
-        Returns: Angular unit
+
+        :return: Angular unit
+        :rtype: int
         """
         return self._angularUnit
 
     def setAngularUnit(self, unit):
         """
         Sets the angular unit used by all methods using a pose
-        unit: Angular unit
+
+        :param unit: Angular unit
+        :type unit: int
         """
         # Check if this unit is already set
         if unit == self._angularUnit:
@@ -396,8 +419,9 @@ class QwiicOTOS(object):
     def getLinearScalar(self):
         """
         Gets the linear scalar used by the OTOS
-        scalar: Linear scalar
-        Returns: 0 for success, negative for errors, positive for warnings
+
+        :return: Linear scalar
+        :rtype: float
         """
         # Read the linear scalar from the device
         rawScalar = self._i2c.read_byte(self.address, self.kRegScalarLinear)
@@ -411,10 +435,13 @@ class QwiicOTOS(object):
 
     def setLinearScalar(self, scalar):
         """
-        Sets the linear scalar used by the OTOS. Can be used to
-        compensate for scaling issues with the sensor measurements
-        scalar: Linear scalar, must be between 0.872 and 1.127
-        Returns: 0 for success, negative for errors, positive for warnings
+        Sets the linear scalar used by the OTOS. Can be used to compensate
+        for scaling issues with the sensor measurements
+
+        :param scalar: Linear scalar, must be between 0.872 and 1.127
+        :type scalar: float
+        :return: True if successful, otherwise False
+        :rtype: bool
         """
         # Check if the scalar is out of bounds
         if scalar < self.kMinScalar or scalar > self.kMaxScalar:
@@ -429,8 +456,9 @@ class QwiicOTOS(object):
     def getAngularScalar(self):
         """
         Gets the angular scalar used by the OTOS
-        scalar: Angular scalar
-        Returns: 0 for success, negative for errors, positive for warnings
+
+        :return: Angular scalar
+        :rtype: float
         """
         # Read the linear scalar from the device
         rawScalar = self._i2c.read_byte(self.address, self.kRegScalarAngular)
@@ -444,10 +472,13 @@ class QwiicOTOS(object):
 
     def setAngularScalar(self, scalar):
         """
-        Sets the angular scalar used by the OTOS. Can be used to
-        compensate for scaling issues with the sensor measurements
-        scalar: Angular scalar, must be between 0.872 and 1.127
-        Returns: 0 for success, negative for errors, positive for warnings
+        Sets the angular scalar used by the OTOS. Can be used to compensate
+        for scaling issues with the sensor measurements
+
+        :param scalar: Angular scalar, must be between 0.872 and 1.127
+        :type scalar: float
+        :return: True if successful, otherwise False
+        :rtype: bool
         """
         # Check if the scalar is out of bounds
         if scalar < self.kMinScalar or scalar > self.kMaxScalar:
@@ -461,9 +492,8 @@ class QwiicOTOS(object):
 
     def resetTracking(self):
         """
-        Resets the tracking algorithm, which resets the position to the
-        origin, but can also be used to recover from some rare tracking errors
-        Returns: 0 for success, negative for errors, positive for warnings
+        Resets the tracking algorithm, which resets the position to the origin,
+        but can also be used to recover from some rare tracking errors
         """
         # Set tracking reset bit
         self._i2c.write_byte(self.address, self.kRegReset, 0x01)
@@ -471,18 +501,19 @@ class QwiicOTOS(object):
     def getSignalProcessConfig(self):
         """
         Gets the signal processing configuration from the OTOS
-        config: Signal processing configuration
-        Returns: 0 for success, negative for errors, positive for warnings
+
+        :return: Signal processing configuration
+        :rtype: int
         """
         # Read the signal process register
         return self._i2c.read_byte(self.address, self.kRegSignalProcess)
 
     def setSignalProcessConfig(self, config):
         """
-        Sets the signal processing configuration on the OTOS. This is
-        primarily useful for creating and testing a new lookup table calibration
-        config: Signal processing configuration
-        Returns: 0 for success, negative for errors, positive for warnings
+        Sets the signal processing configuration for the OTOS
+
+        :param config: Signal processing configuration
+        :type config: int
         """
         # Write the signal process register
         self._i2c.write_byte(self.address, self.kRegSignalProcess, config)
@@ -491,34 +522,38 @@ class QwiicOTOS(object):
         """
         Gets the status register from the OTOS, which includes warnings
         and errors reported by the sensor
-        status: Status register value
-        Returns: 0 for success, negative for errors, positive for warnings
+
+        :return: Status register value
+        :rtype: int
         """
         return self._i2c.read_byte(self.address, self.kRegStatus)
 
     def getOffset(self):
         """
         Gets the offset of the OTOS
-        pose: Offset of the sensor relative to the center of the robot
-        Returns: 0 for success, negative for errors, positive for warnings
+
+        :return: Offset of the sensor relative to the center of the robot
+        :rtype: Pose2D
         """
         return self._readPoseRegs(self.kRegOffXL, self.kInt16ToMeter, self.kInt16ToRad)
 
     def setOffset(self, pose):
         """
-        Sets the offset of the OTOS. This is useful if your sensor is
+        Gets the offset of the OTOS. This is useful if your sensor is
         mounted off-center from a robot. Rather than returning the position of
         the sensor, the OTOS will return the position of the robot
-        pose: Offset of the sensor relative to the center of the robot
-        Returns: 0 for success, negative for errors, positive for warnings
+
+        :param pose: Offset of the sensor relative to the center of the robot
+        :type pose: Pose2D
         """
         self._writePoseRegs(self.kRegOffXL, pose, self.kMeterToInt16, self.kRadToInt16)
 
     def getPosition(self):
         """
         Gets the position measured by the OTOS
-        pose: Position measured by the OTOS
-        Returns: 0 for success, negative for errors, positive for warnings
+
+        :return: Position measured by the OTOS
+        :rtype: Pose2D
         """
         return self._readPoseRegs(self.kRegPosXL, self.kInt16ToMeter, self.kInt16ToRad)
 
@@ -528,57 +563,66 @@ class QwiicOTOS(object):
         robot does not start at the origin, or you have another source of
         location information (eg. vision odometry); the OTOS will continue
         tracking from this position
-        pose: New position for the OTOS to track from
-        Returns: 0 for success, negative for errors, positive for warnings
+
+        :param pose: New position for the OTOS to track from
+        :type pose: Pose2D
         """
         self._writePoseRegs(self.kRegPosXL, pose, self.kMeterToInt16, self.kRadToInt16)
 
     def getVelocity(self):
         """
         Gets the velocity measured by the OTOS
-        pose: Velocity measured by the OTOS
-        Returns: 0 for success, negative for errors, positive for warnings
+
+        :return: Velocity measured by the OTOS
+        :rtype: Pose2D
         """
         return self._readPoseRegs(self.kRegVelXL, self.kInt16ToMps, self.kInt16ToRps)
 
     def getAcceleration(self):
         """
         Gets the acceleration measured by the OTOS
-        pose: Acceleration measured by the OTOS
-        Returns: 0 for success, negative for errors, positive for warnings
+
+        :return: Acceleration measured by the OTOS
+        :rtype: Pose2D
         """
         return self._readPoseRegs(self.kRegAccXL, self.kInt16ToMpss, self.kInt16ToRpss)
 
     def getPositionStdDev(self):
         """
         Gets the standard deviation of the measured position
-        pose: Standard deviation of the position measured by the OTOS
-        Returns: 0 for success, negative for errors, positive for warnings
-        Note: These values are just the square root of the diagonal elements of
+
+        These values are just the square root of the diagonal elements of
         the covariance matrices of the Kalman filters used in the firmware, so
         they are just statistical quantities and do not represent actual error!
+
+        :return: Standard deviation of the position measured by the OTOS
+        :rtype: Pose2D
         """
         return self._readPoseRegs(self.kRegPosStdXL, self.kInt16ToMeter, self.kInt16ToRad)
 
     def getVelocityStdDev(self):
         """
         Gets the standard deviation of the measured velocity
-        pose: Standard deviation of the velocity measured by the OTOS
-        Returns: 0 for success, negative for errors, positive for warnings
-        Note: These values are just the square root of the diagonal elements of
+
+        These values are just the square root of the diagonal elements of
         the covariance matrices of the Kalman filters used in the firmware, so
         they are just statistical quantities and do not represent actual error!
+
+        :return: Standard deviation of the velocity measured by the OTOS
+        :rtype: Pose2D
         """
         return self._readPoseRegs(self.kRegVelStdXL, self.kInt16ToMps, self.kInt16ToRps)
 
     def getAccelerationStdDev(self):
         """
         Gets the standard deviation of the measured acceleration
-        pose: Standard deviation of the acceleration measured by the OTOS
-        Returns: 0 for success, negative for errors, positive for warnings
-        Note: These values are just the square root of the diagonal elements of
+
+        These values are just the square root of the diagonal elements of
         the covariance matrices of the Kalman filters used in the firmware, so
         they are just statistical quantities and do not represent actual error!
+
+        :return: Standard deviation of the acceleration measured by the OTOS
+        :rtype: Pose2D
         """
         return self._readPoseRegs(self.kRegAccStdXL, self.kInt16ToMpss, self.kInt16ToRpss)
 
@@ -586,10 +630,9 @@ class QwiicOTOS(object):
         """
         Gets the position, velocity, and acceleration measured by the
         OTOS in a single burst read
-        pos: Position measured by the OTOS
-        vel: Velocity measured by the OTOS
-        acc: Acceleration measured by the OTOS
-        Returns: 0 for success, negative for errors, positive for warnings
+
+        :return: Position, velocity, and acceleration measured by the OTOS
+        :rtype: tuple of Pose2D
         """
         # Read all pose registers
         rawData = self._i2c.read_block(self.address, self.kRegPosXL, 18)
@@ -605,10 +648,10 @@ class QwiicOTOS(object):
         """
         Gets the standard deviation of the measured position, velocity,
         and acceleration in a single burst read
-        pos: Standard deviation of the position measured by the OTOS
-        vel: Standard deviation of the velocity measured by the OTOS
-        acc: Standard deviation of the acceleration measured by the OTOS
-        Returns: 0 for success, negative for errors, positive for warnings
+
+        :return: Standard deviation of the position, velocity, and acceleration
+        measured by the OTOS
+        :rtype: tuple of Pose2D
         """
         # Read all pose registers
         rawData = self._i2c.read_block(self.address, self.kRegPosStdXL, 18)
@@ -624,13 +667,10 @@ class QwiicOTOS(object):
         """
         Gets the position, velocity, acceleration, and standard deviation
         of each in a single burst read
-        pos: Position measured by the OTOS
-        vel: Velocity measured by the OTOS
-        acc: Acceleration measured by the OTOS
-        posStdDev: Standard deviation of the position measured by the OTOS
-        velStdDev: Standard deviation of the velocity measured by the OTOS
-        accStdDev: Standard deviation of the acceleration measured by the OTOS
-        Returns: 0 for success, negative for errors, positive for warnings
+
+        :return: Position, velocity, acceleration, and standard deviation of
+        each measured by the OTOS
+        :rtype: tuple of Pose2D
         """
         # Read all pose registers
         rawData = self._i2c.read_block(self.address, self.kRegPosXL, 36)
@@ -648,11 +688,15 @@ class QwiicOTOS(object):
     def _readPoseRegs(self, reg, rawToXY, rawToH):
         """
         Function to read raw pose registers and convert to specified units
-        reg: Register to read from
-        pose: Pose structure to store the converted pose
-        rawToXY: Conversion factor from raw units to XY units
-        rawToH: Conversion factor from raw units to heading units
-        Returns: 0 for success, negative for errors, positive for warnings
+
+        :param reg: Register to read from
+        :type reg: int
+        :param rawToXY: Conversion factor from raw units to XY units
+        :type rawToXY: float
+        :param rawToH: Conversion factor from raw units to heading units
+        :type rawToH: float
+        :return: Pose structure containing the pose read from the registers
+        :rtype: Pose2D
         """
         # Read the raw pose data
         rawData = self._i2c.read_block(self.address, reg, 6)
@@ -662,11 +706,15 @@ class QwiicOTOS(object):
     def _writePoseRegs(self, reg, pose, xyToRaw, hToRaw):
         """
         Function to write raw pose registers and convert from specified units
-        reg: Register to write to
-        pose: Pose structure containing the pose to write
-        xyToRaw: Conversion factor from XY units to raw units
-        hToRaw: Conversion factor from heading units to raw units
-        Returns: 0 for success, negative for errors, positive for warnings
+
+        :param reg: Register to write to
+        :type reg: int
+        :param pose: Pose structure containing the pose to write to the registers
+        :type pose: Pose2D
+        :param xyToRaw: Conversion factor from XY units to raw units
+        :type xyToRaw: float
+        :param hToRaw: Conversion factor from heading units to raw units
+        :type hToRaw: float
         """
         # Store raw data in a temporary buffer
         rawData = self._poseToRegs(pose, xyToRaw, hToRaw)
@@ -677,10 +725,15 @@ class QwiicOTOS(object):
     def _regsToPose(self, rawData, rawToXY, rawToH):
         """
         Function to convert raw pose registers to a pose structure
-        rawData: Raw data from the pose registers
-        pose: Pose structure to store the converted pose
-        rawToXY: Conversion factor from raw units to XY units
-        rawToH: Conversion factor from raw units to heading units
+
+        :param rawData: Raw data from the pose registers
+        :type rawData: list of int
+        :param rawToXY: Conversion factor from raw units to XY units
+        :type rawToXY: float
+        :param rawToH: Conversion factor from raw units to heading units
+        :type rawToH: float
+        :return: Pose structure containing the pose read from the registers
+        :rtype: Pose2D
         """
         # Store raw data
         rawX = (rawData[1] << 8) | rawData[0]
@@ -705,10 +758,15 @@ class QwiicOTOS(object):
     def _poseToRegs(self, pose, xyToRaw, hToRaw):
         """
         Function to convert a pose structure to raw pose registers
-        rawData: Raw data from the pose registers
-        pose: Pose structure containing the pose to convert
-        xyToRaw: Conversion factor from XY units to raw units
-        hToRaw: Conversion factor from heading units to raw units
+
+        :param pose: Pose structure containing the pose to write to the registers
+        :type pose: Pose2D
+        :param xyToRaw: Conversion factor from XY units to raw units
+        :type xyToRaw: float
+        :param hToRaw: Conversion factor from heading units to raw units
+        :type hToRaw: float
+        :return: Raw data to write to the pose registers
+        :rtype: list of int
         """
         # Convert pose units to raw data
         rawX = round(pose.x * xyToRaw / self._meterToUnit)
