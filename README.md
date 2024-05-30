@@ -22,7 +22,7 @@ Qwiic_OTOS_Py
 
 
 
-<img src="https://cdn.sparkfun.com/r/600-600/assets/parts/2/5/2/0/9/SEN-24904-Optical-Tracking-Odometry-Sensor-Feature.jpg"  align="right" width=300 alt="SparkFun Optical Tracking Odometry Sensor - PAA5160E1 (Qwiic)">
+<img src="https://cdn.sparkfun.com/assets/parts/2/5/2/0/9/SEN-24904-Optical-Tracking-Odometry-Sensor-Feature.jpg"  align="right" width=300 alt="SparkFun Optical Tracking Odometry Sensor - PAA5160E1 (Qwiic)">
 
 
 Python module for the <a href="https://www.sparkfun.com/products/24904">SparkFun Optical Tracking Odometry Sensor - PAA5160E1 (Qwiic)</a>
