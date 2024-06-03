@@ -1,4 +1,4 @@
-Qwiic <Example Package Title>
+Qwiic OTOS Py
 =============================================
 
-This is a short description of this package.
+The Python Package for the Qwiic Optical Tracking Odometry Sensor. 
