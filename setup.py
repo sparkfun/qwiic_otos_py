@@ -47,7 +47,7 @@ with io.open(path.join(here, "DESCRIPTION.rst"), encoding="utf-8") as f:
 
 setup(
 
-    name='sparkfun_qwiic_otos_py',
+    name='sparkfun_qwiic_otos',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
@@ -98,6 +98,6 @@ setup(
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
-    py_modules=["qwiic_otos_py"],
+    py_modules=["qwiic_otos"],
 
 )
