@@ -38,17 +38,17 @@ From the docstring spec (PEP-0257):
 
 These strings are enclosed by triple quotes. While the format of the text is left to the user, the Sphinx system will honor reStructured text formatting. The qwiic system python documentation formats the docstrings as reStructure Text.
 
-An example of a docstring is the class definition for the QwiicBME280 object. 
+An example of a docstring is the class definition for the QwiicOTOS object. 
 ```python
-class QwiicBme280(object):
+class QwiicOTOS(object):
 	"""
-	QwiicBme280
+	QwiicOTOS
 
 		:param address: The I2C address to use for the device. 
 						If not provided, the default address is used.
 		:param i2c_driver: An existing i2c driver object. If not provided 
 						a driver object is created. 
-		:return: The BME280 device object.
+		:return: The OTOS device object.
 		:rtype: Object
 	"""
 ```
@@ -58,9 +58,9 @@ Doc strings for methods following the method declaration statement:
 ```python
 def setFilter(self, filterSetting):
 		"""
-		Set the filter bits in the BME280s config register
+		Set the filter bits in the OTOSs config register
 
-		:param filterSetting: The filter bits for the BME280. Acceptable values
+		:param filterSetting: The filter bits for the OTOS. Acceptable values
 						0 = filter off
 	  					1 = coefficients = 2
 	  					2 = coefficients = 4
@@ -77,11 +77,11 @@ And you can even add docstrings to a module (file) - placing the docstring at th
 #==================================================================================
 
 """
-qwiic_bme280
+qwiic_otos
 ============
-Python module for the qwiic bme280 sensor, which is part of the [SparkFun Qwiic Environmental Combo Breakout](https://www.sparkfun.com/products/14348)
+Python module for the [SparkFun Optical Tracking Odometry Sensor - PAA5160E1 (Qwiic)](https://www.sparkfun.com/products/24904)
 
-This python package is a port of the existing [SparkFun BME280 Arduino Library](https://github.com/sparkfun/SparkFun_BME280_Arduino_Library)
+This python package is a port of the existing [SparkFun Optical Tracking Odometry Sensor Arduino Library](https://github.com/sparkfun/SparkFun_Qwiic_OTOS_Arduino_Library)
 
 This package can be used in conjunction with the overall [SparkFun qwiic Python Package](https://github.com/sparkfun/Qwiic_Py)
 
@@ -104,7 +104,7 @@ The ````docs/conf.py``` file sets the configuration Sphinx will use when buildin
 
 These are variables that describe the project. The key value being the name of the project, which should be in the form of **`'sparkfun_qwiic_`**`<package_name>'`. _(*Don't forget to update the copyright year.)_
 ```python
-project = 'sparkfun_qwiic_bme280'
+project = 'sparkfun_qwiic_otos'
 copyright = '2019, SparkFun Electronics'
 author = 'SparkFun Electronics'
 ```
@@ -149,7 +149,7 @@ The structure and contents of the documentation is oulined using a set of reStru
 
 This file defines the entry page for the documentation. For the qwiic documentation, we include the GitHub README.md file, and define a table of contents, which defines other pages of the documentation. 
 
-For the qwiic BME280 python package, this file contains the following:
+For the qwiic OTOS python package, this file contains the following:
 ```rst
 .. mdinclude:: ../README.md
 
@@ -180,8 +180,8 @@ Table of Contents
    :caption: Other Links
 
 	SparkFun <https://sparkfun.com>
-   SparkFun Environmental Combo Breakout CCS811/BME280 <https://www.sparkfun.com/products/14348>
-	GitHub <https://github.com/sparkfun/Qwiic_BME280_Py>
+   SparkFun Optical Tracking Odometry Sensor - PAA5160E1 (Qwiic) <https://www.sparkfun.com/products/24904>
+	GitHub <https://github.com/sparkfun/Qwiic_OTOS_Py>
 	SparkFun qwiic <https://www.sparkfun.com/qwiic>
 ```
 
@@ -231,8 +231,8 @@ In the other links section, update the product name and the links to the product
    :caption: Other Links
 
 	SparkFun <https://sparkfun.com>
-   SparkFun Environmental Combo Breakout CCS811/BME280 <https://www.sparkfun.com/products/14348>
-	GitHub <https://github.com/sparkfun/Qwiic_BME280_Py>
+   SparkFun Optical Tracking Odometry Sensor - PAA5160E1 (Qwiic) <https://www.sparkfun.com/products/24904>
+	GitHub <https://github.com/sparkfun/OTOS>
 	SparkFun qwiic <https://www.sparkfun.com/qwiic>
 ```
 
@@ -240,15 +240,15 @@ In the other links section, update the product name and the links to the product
 
 To document the projects API, the *autodoc* system of Sphinx is used. This system will crawl the specified files/packages and generate documention using the included *docstrings*. _(*The automodule should take the form of **`qwiic_`**`<package_name>`. For packages with underlying classes, see the `qwiic_mico_oled` example below.)_
 
-For a moduled, like ```qwiic_bme280```, the contents of ```apiref.rst``` is:
+For a moduled, like ```qwiic_otos```, the contents of ```apiref.rst``` is:
 ```rst
 API Reference
 ==============
 
-.. automodule:: qwiic_bme280
+.. automodule:: qwiic_otos
    :members:
 ```
-This specifies that Sphinx should inspect the qwiic_bme280 module, and document the package members. 
+This specifies that Sphinx should inspect the qwiic_otos module, and document the package members. 
 
 Got python packages, such as the ```qwiic_mico_oled``` package, the documentation is contained in module and underlying class, so the rst file takes a slightly different format:
 ```rst
@@ -269,12 +269,12 @@ ___Documenting Examples___
 
 Any examples for a package are also included in the documentation. These are defined in individual rst files, which do nothing more than include the source of the example. 
 
-The following shows the format of an an example rst file, which does nothing more than inline a file, add the filename as the caption of the inline, and formats the included file with line numbers. _(*The header/title is what will appear as the example code's title on the ReadtheDocs webpage and display the script from `/examples/qwiic_bme280_ex1.py`.)_
+The following shows the format of an an example rst file, which does nothing more than inline a file, add the filename as the caption of the inline, and formats the included file with line numbers. _(*The header/title is what will appear as the example code's title on the ReadtheDocs webpage and display the script from `/examples/qwiic_otos_ex1.py`.)_
 ```rst
 Basic Operation
 ---------------------------
-.. literalinclude:: ../examples/qwiic_bme280_ex1.py
-    :caption: examples/qwiic_bme280_ex1.py
+.. literalinclude:: ../examples/qwiic_otos_ex1.py
+    :caption: examples/qwiic_otos_ex1.py
     :linenos:
 ```
 
