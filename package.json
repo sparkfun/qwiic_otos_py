@@ -1,9 +1,13 @@
 {
     "urls": [
-      ["qwiic_otos.py", "github:sparkfun/Qwiic_OTOS_Py/qwiic_otos.py"]
-    ],
-    "deps": [
-      ["github:sparkfun/Qwiic_I2C_Py", "master"]
+      ["qwiic_otos_py_examples/qwiic_otos_ex1_basic_readings.py", "github:sparkfun/qwiic_otos_py/examples/qwiic_otos_ex1_basic_readings.py"],
+      ["qwiic_otos_py_examples/qwiic_otos_ex2_set_units.py", "github:sparkfun/qwiic_otos_py/examples/qwiic_otos_ex2_set_units.py"],
+      ["qwiic_otos_py_examples/qwiic_otos_ex3_calibration.py", "github:sparkfun/qwiic_otos_py/examples/qwiic_otos_ex3_calibration.py"],
+      ["qwiic_otos_py_examples/qwiic_otos_ex4_set_offsets_and_position.py", "github:sparkfun/qwiic_otos_py/examples/qwiic_otos_ex4_set_offsets_and_position.py"],
+      ["qwiic_otos_py_examples/qwiic_otos_ex5_velocity_and_acceleration.py", "github:sparkfun/qwiic_otos_py/examples/qwiic_otos_ex5_velocity_and_acceleration.py"],
+      ["qwiic_otos_py_examples/qwiic_otos_ex6_standard_deviation.py", "github:sparkfun/qwiic_otos_py/examples/qwiic_otos_ex6_standard_deviation.py"],
+      ["qwiic_otos_py_examples/qwiic_otos_ex7_get_version.py", "github:sparkfun/qwiic_otos_py/examples/qwiic_otos_ex7_get_version.py"],
+      ["qwiic_otos_py_examples/qwiic_otos_ex8_self_test.py", "github:sparkfun/qwiic_otos_py/examples/qwiic_otos_ex8_self_test.py"]
     ],
     "version": "0.0.1"
 }
