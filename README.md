@@ -23,7 +23,7 @@ This repository implements a Python package for the SparkFun Qwiic OTOS. This pa
 
 ## About the Package
 
-This python package enables the user to access the features of the OTOS via a single Qwiic cable. This includes <odometry tracking, reading velocity and acceleration, performing calibration> and more. The capabilities of the OTOS are each demonstrated in the included examples.
+This python package enables the user to access the features of the OTOS via a single Qwiic cable. This includes odometry tracking, reading velocity and acceleration, performing calibration and more. The capabilities of the OTOS are each demonstrated in the included examples.
 
 New to qwiic? Take a look at the entire [SparkFun qwiic ecosystem](https://www.sparkfun.com/qwiic).
 
@@ -81,7 +81,7 @@ mpremote mip install github:sparkfun/qwiic_otos_py
 
 If you would also like to install the examples for this repository, issue the following mip command as well:
 ```sh
-mprmeote mip install github:sparkfun/qwiic_otos_py@examples
+mpremote mip install --target "" github:sparkfun/qwiic_otos_py@examples
 ```
 
 ### CircuitPython Installation
