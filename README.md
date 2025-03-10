@@ -114,7 +114,7 @@ Example Use
  ---------------
 Below is a quickstart program to print readings from the OTOS.
 
-See the examples directory for more detailed use examples and [examples/README.md](https://github.com/sparkfun/qwiic_otos_py/blob/main/examples/README.md) for a summary of the available examples.
+See the examples directory for more detailed use examples and [examples/README.md](https://github.com/sparkfun/qwiic_otos_py/blob/master/examples/README.md) for a summary of the available examples.
 
 ```python
 
