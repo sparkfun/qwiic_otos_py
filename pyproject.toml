@@ -3,7 +3,7 @@ requires = ["setuptools"]
 
 [project]
 name = "sparkfun_qwiic_otos"
-version = "0.0.1"
+version = "2.0.0"
 description = "SparkFun Qwiic OTOS Python package"
 readme = "DESCRIPTION.rst"
 
